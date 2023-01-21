@@ -1,0 +1,3439 @@
+openapi: 3.0.1
+info:
+  title: Suger API
+  version: ''
+paths:
+  /public/apiClient/accessToken:
+    post:
+      description: >-
+        Get the Bearer Access Token by giving the Suger API Client ID & Client
+        Secret.
+      operationId: ApiAuthService.getBearerToken
+      tags:
+        - ApiAuth
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiClientAccessToken'
+      summary: Get the Bearer Access Token to access Suger API
+      security: &ref_0
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetApiClientAccessTokenParams'
+  /org/{orgId}/buyer:
+    get:
+      operationId: BuyerService.getAll
+      tags:
+        - Buyer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityBuyer'
+      summary: List all buyers under the organization
+      security: *ref_0
+  /org/{orgId}/buyer/{buyerId}:
+    get:
+      operationId: BuyerService.get
+      tags:
+        - Buyer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: buyerId
+          in: path
+          description: Buyer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityBuyer'
+      summary: Get the buyer
+      security: *ref_0
+    patch:
+      operationId: BuyerService.update
+      tags:
+        - Buyer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: buyerId
+          in: path
+          description: Buyer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityBuyer'
+      summary: Update the name & description of the buyer
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBuyerNameDescriptionParams'
+  /org/{orgId}/addEntitlementCredit:
+    post:
+      description: >-
+        Add Credit Amount to the given Entitlement. The credit amount is
+        accumulated & saved in the current Entitlement Term of the gvien
+        Entitlement.
+      operationId: EntitlementService.addEntitlementCredit
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddEntitlementCreditResponse'
+      summary: Add Credit Amount in Entitlement.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEntitlementCreditParams'
+  /org/{orgId}/buyer/{buyerId}/entitlement:
+    get:
+      operationId: EntitlementService.getForBuyer
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: buyerId
+          in: path
+          description: Buyer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: List all entitlements of the buyer
+      security: *ref_0
+  /org/{orgId}/entitlement:
+    get:
+      operationId: EntitlementService.getAll
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: List all entitlements under the organization
+      security: *ref_0
+  /org/{orgId}/entitlement/{entitlementId}:
+    get:
+      operationId: EntitlementService.get
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: Get entitlement
+      security: *ref_0
+  /org/{orgId}/entitlement/{entitlementId}/entitlementName:
+    patch:
+      operationId: EntitlementService.updateName
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: Update entitlement name
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEntitlementNameParams'
+  /org/{orgId}/offer/{offerId}/entitlement:
+    get:
+      operationId: EntitlementService.getForOffer
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: offerId
+          in: path
+          description: Offer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: List all entitlements under the offer
+      security: *ref_0
+  /org/{orgId}/partner/{partner}/entitlement:
+    get:
+      operationId: EntitlementService.getForPartner
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: List all entitlements under the partner
+      security: *ref_0
+  /org/{orgId}/product/{productId}/entitlement:
+    get:
+      operationId: EntitlementService.getForProduct
+      tags:
+        - Entitlement
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlement'
+      summary: List all entitlements under the product
+      security: *ref_0
+  /org/{orgId}/entitlement/{entitlementId}/entitlementTerm:
+    get:
+      operationId: EntitlementTermService.getAll
+      tags:
+        - EntitlementTerm
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadEntitlementTerm'
+      summary: List all Entitlement Terms of the Entitlement.
+      security: *ref_0
+  /org/{orgId}/entitlement/{entitlementId}/entitlementTerm/{entitlementTermId}:
+    get:
+      operationId: EntitlementTermService.get
+      tags:
+        - EntitlementTerm
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementTermId
+          in: path
+          description: Entitlement Term ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadEntitlementTerm'
+      summary: Get an Entitlement Term.
+      security: *ref_0
+  /org/{orgId}/integration:
+    get:
+      operationId: IntegrationService.getAllForOrg
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityIntegration'
+      summary: List all integrations under the organization
+      security: *ref_0
+    post:
+      description: >-
+        For each organization, partner & service, there should be at most one
+        integration.
+      operationId: IntegrationService.create
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityIntegration'
+      summary: Create an integration.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIntegrationParams'
+  /org/{orgId}/integration/{partner}/{service}:
+    get:
+      operationId: IntegrationService.get
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+        - name: service
+          in: path
+          description: Partner Service
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityIntegration'
+      summary: Get the integration for the given organization, partner & service.
+      security: *ref_0
+    delete:
+      operationId: IntegrationService.delete
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+        - name: service
+          in: path
+          description: Partner Service
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: Delete the integration.
+      security: *ref_0
+    patch:
+      operationId: IntegrationService.update
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+        - name: service
+          in: path
+          description: Partner Service
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityIntegration'
+      summary: Update the integration.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIntegrationParams'
+  /org/{orgId}/integration/{partner}/{service}/verify:
+    post:
+      operationId: IntegrationService.verify
+      tags:
+        - Integration
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+        - name: service
+          in: path
+          description: Partner Service
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: boolean
+      summary: Verify the integration, check whether it works correctly.
+      security: *ref_0
+  /org/{orgId}/entitlement/{entitlementId}/usageRecordGroup:
+    get:
+      operationId: MeteringService.getUsageRecordGroupsForEntitlement
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: List pagination size, default 20
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: List pagination offset, default 0
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsageRecordGroupsResponse'
+      summary: list all UsageRecordGroups under the given entitlement
+      security: *ref_0
+    post:
+      description: >-
+        It is recommended to provide the ID in the request body
+        CreateUsageRecordGroupParams, so the report can be deduplicated. All
+        duplicate report will return error code 409.
+      operationId: MeteringService.reportUsageRecordGroup
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringUsageRecordGroup'
+      summary: Report new UsageRecordGroup.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsageRecordGroupParams'
+  /org/{orgId}/entitlement/{entitlementId}/usageRecordReport:
+    get:
+      operationId: MeteringService.getUsageRecordReportsForEntitlement
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementId
+          in: path
+          description: Entitlement ID
+          required: true
+          schema:
+            type: string
+        - name: entitlementTermId
+          in: query
+          description: >-
+            The Entitlement Term ID, if not given, return the UsageRecordReports
+            of all Entitlement Terms under the Entitlement
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsageRecordReportsResponse'
+      summary: list all UsageRecordReports under the given entitlement
+      security: *ref_0
+  /org/{orgId}/product/{productId}/usageRecordGroup:
+    get:
+      operationId: MeteringService.getUsageRecordGroupsForProduct
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: List pagination size, default 20
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: List pagination offset, default 0
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsageRecordGroupsResponse'
+      summary: list all UsageRecordGroups under the given product
+      security: *ref_0
+  /org/{orgId}/usageRecordGroup:
+    get:
+      operationId: MeteringService.getUsageRecordGroupsForOrganization
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: List pagination size, default 20
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: List pagination offset, default 0
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsageRecordGroupsResponse'
+      summary: list all UsageRecordGroups under the given organization
+      security: *ref_0
+  /org/{orgId}/usageRecordGroup/{usageRecordGroupId}:
+    get:
+      operationId: MeteringService.getUsageRecordGroupById
+      tags:
+        - Metering
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: usageRecordGroupId
+          in: path
+          description: UsageRecordGroup ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringUsageRecordGroup'
+      summary: get an UsageRecordGroup by organization_entitlement_usage RecordGroup id
+      security: *ref_0
+  /org/{orgId}/offer:
+    get:
+      operationId: OfferService.getAll
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadOffer'
+      summary: List all offers under the organization
+      security: *ref_0
+    post:
+      operationId: OfferService.create
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadOffer'
+      summary: Create a private offer.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOfferParams'
+  /org/{orgId}/offer/{offerId}:
+    get:
+      operationId: OfferService.get
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: offerId
+          in: path
+          description: Offer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadOffer'
+      summary: Get the offer.
+      security: *ref_0
+    delete:
+      description: >-
+        Currently only the offer with status = "CREATE_PENDING" or
+        "CREATE_FAILED" is allowed to be deleted.
+      operationId: OfferService.delete
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: offerId
+          in: path
+          description: Offer ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: Delete the offer.
+      security: *ref_0
+  /org/{orgId}/partner/{partner}/offer:
+    get:
+      operationId: OfferService.getAllForCloudPartner
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadOffer'
+      summary: List all offers under the cloud partner.
+      security: *ref_0
+  /org/{orgId}/product/{productId}/offer:
+    get:
+      operationId: OfferService.getAllForProduct
+      tags:
+        - Offer
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadOffer'
+      summary: List all offers under the product.
+      security: *ref_0
+  /org/{orgId}/operation:
+    get:
+      description: >-
+        The operations can be filtered by offerId or entitlementId. If both of
+        them are provided, then it is filtered by entitlementId only.
+      operationId: OperationService.search
+      tags:
+        - Operation
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: offerId
+          in: query
+          description: filter by offerId
+          required: false
+          schema:
+            type: string
+        - name: entitlementId
+          in: query
+          description: filter by entitlementId
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Operation'
+      summary: >-
+        list all long running operations under the given organization, offer or
+        entitlement.
+      security: *ref_0
+  /org/{orgId}/partner/{partner}/product:
+    get:
+      operationId: ProductService.getAllForCloudPartner
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: partner
+          in: path
+          description: Cloud Partner
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadProduct'
+      summary: List all products under the cloud partner
+      security: *ref_0
+  /org/{orgId}/product:
+    get:
+      operationId: ProductService.getAll
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadProduct'
+      summary: List all products under the organization
+      security: *ref_0
+    post:
+      operationId: ProductService.create
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProduct'
+      summary: Create an Product & List it to the Partner's marketplace.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductParams'
+  /org/{orgId}/product/{productId}:
+    get:
+      operationId: ProductService.get
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProduct'
+      summary: Get the Product
+      security: *ref_0
+    delete:
+      description: >-
+        Currently only the product with status = "CREATE_PENDING" or
+        "CREATE_FAILED" is allowed to be deleted.
+      operationId: ProductService.delete
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: Delete the product.
+      security: *ref_0
+    patch:
+      operationId: ProductService.update
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProduct'
+      summary: Currently, only the Fulfillment URL is allowed to update.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductParams'
+  /org/{orgId}/product/{productId}/dimension:
+    get:
+      operationId: ProductService.getMeteringDimensions
+      tags:
+        - Product
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AwsSaasProductDimension'
+      summary: List the Metering Dimensions of the Product
+      security: *ref_0
+  /org/{orgId}/revenueReport:
+    post:
+      description: >-
+        Get the revenue report of the given organization, product, entitlement,
+        or buyer.
+      operationId: ReportService.getRevenueReport
+      tags:
+        - Report
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevenueReport'
+      summary: Get the revenue report.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetRevenueReportParams'
+  /org/{orgId}/usageReport:
+    post:
+      description: >-
+        Get the daily usage report of the given entitlement, the default
+        timespan is lifetime.
+      operationId: ReportService.getUsageReport
+      tags:
+        - Report
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport'
+      summary: Get the usage report.
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUsageReportParams'
+components:
+  schemas:
+    GetApiClientAccessTokenParams:
+      type: object
+      properties:
+        id:
+          type: string
+        organizationID:
+          type: string
+        secret:
+          type: string
+      required:
+        - id
+        - organizationID
+        - secret
+    ApiClientAccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        token_type:
+          type: string
+    UpdateBuyerNameDescriptionParams:
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        organizationID:
+          type: string
+    WorkloadEntitlement:
+      type: object
+      properties:
+        buyerID:
+          type: string
+        creationTime:
+          type: string
+        endTime:
+          type: string
+        entitlementTermID:
+          type: string
+        externalBuyerID:
+          type: string
+        externalID:
+          type: string
+        externalProductID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/EntitlementInfo'
+        lastUpdateTime:
+          type: string
+        name:
+          type: string
+        offerID:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        service:
+          type: string
+        startTime:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+    EntitlementInfo:
+      type: object
+      properties:
+        autoRenew:
+          type: boolean
+        awsEntitlements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entitlement'
+        azureSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureMarketplaceSubscription'
+        collectableAmount:
+          type: number
+          format: double
+        commits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommitDimension'
+        currency:
+          type: string
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeteringDimension'
+        disbursedAmount:
+          type: number
+          format: double
+        discount:
+          type: number
+          format: double
+        eulaType:
+          type: string
+        eulaUrl:
+          type: string
+        gcpEntitlements:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpMarketplaceEntitlement'
+        gcpPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpPurchasePlan'
+        invoicedAmount:
+          type: number
+          format: double
+        paymentInstallments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentInstallment'
+        refundCancelationPolicy:
+          type: string
+        sellerNotes:
+          type: string
+    Entitlement:
+      type: object
+      properties:
+        customerIdentifier:
+          type: string
+        dimension:
+          type: string
+        expirationDate:
+          type: string
+        productCode:
+          type: string
+    AzureMarketplaceSubscription:
+      type: object
+      properties:
+        allowedCustomerOperations:
+          type: array
+          items:
+            type: string
+        autoRenew:
+          type: boolean
+        beneficiary:
+          $ref: '#/components/schemas/AzureADIdentifier'
+        created:
+          type: string
+        fulfillmentId:
+          type: string
+        id:
+          type: string
+        isFreeTrial:
+          type: boolean
+        isTest:
+          type: boolean
+        lastModified:
+          type: string
+        name:
+          type: string
+        offerId:
+          type: string
+        planId:
+          type: string
+        publisherId:
+          type: string
+        purchaser:
+          $ref: '#/components/schemas/AzureADIdentifier'
+        quantity:
+          type: integer
+        saasSubscriptionStatus:
+          type: string
+        sandboxType:
+          type: string
+        sessionId:
+          type: string
+        sessionMode:
+          type: string
+        storeFront:
+          type: string
+        term:
+          $ref: '#/components/schemas/AzureTerm'
+    AzureADIdentifier:
+      type: object
+      properties:
+        buyerInfo:
+          $ref: '#/components/schemas/AzureBuyerInfo'
+        companyInfo:
+          $ref: '#/components/schemas/CompanyInfo'
+        emailId:
+          type: string
+        objectId:
+          type: string
+        puid:
+          type: string
+        tenantId:
+          type: string
+    AzureBuyerInfo:
+      type: object
+      properties:
+        billingAccountId:
+          type: string
+        customerId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    CompanyInfo:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        emailDomain:
+          type: string
+        name:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+    AzureTerm:
+      type: object
+      properties:
+        chargeDuration:
+          type: string
+        endDate:
+          type: string
+        startDate:
+          type: string
+        termUnit:
+          type: string
+    CommitDimension:
+      type: object
+      description: >-
+        The commit dimension. There may be one or more commit dimensions defined
+        in single product, offer or entitlement.
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        key:
+          type: string
+        length:
+          type: integer
+        maximumUsers:
+          type: integer
+        minimumUsers:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        rate:
+          type: number
+          format: double
+        timeUnit:
+          type: string
+        type:
+          type: string
+        types:
+          type: array
+          items:
+            type: string
+    MeteringDimension:
+      type: object
+      description: The dimension to meter usage in entitlement.
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        includedBaseQuantities:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncludedBaseQuantity'
+        key:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+          format: double
+        types:
+          type: array
+          items:
+            type: string
+        usageCount:
+          $ref: '#/components/schemas/UsageCount'
+        valueType:
+          type: string
+    IncludedBaseQuantity:
+      type: object
+      properties:
+        isInfinite:
+          type: boolean
+        quantity:
+          type: number
+          format: double
+        recurringUnit:
+          type: string
+    UsageCount:
+      type: object
+      properties:
+        creditCount:
+          type: number
+          format: double
+        includedCount:
+          type: number
+          format: double
+        reportedCount:
+          type: number
+          format: double
+    GcpMarketplaceEntitlement:
+      type: object
+      properties:
+        account:
+          type: string
+        consumers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpMarketplaceConsumer'
+        createTime:
+          type: string
+        id:
+          type: string
+        inputProperties:
+          type: array
+          items:
+            type: integer
+        messageToUser:
+          type: string
+        name:
+          type: string
+        newOfferDuration:
+          type: string
+        newOfferEndTime:
+          type: string
+        newPendingOffer:
+          type: string
+        newPendingOfferDuration:
+          type: string
+        newPendingPlan:
+          type: string
+        newPlan:
+          type: string
+        offer:
+          type: string
+        offerDuration:
+          type: string
+        offerEndTime:
+          type: string
+        plan:
+          type: string
+        product:
+          type: string
+        productExternalName:
+          type: string
+        provider:
+          type: string
+        quoteExternalName:
+          type: string
+        state:
+          type: string
+        subscriptionEndTime:
+          type: string
+        updateTime:
+          type: string
+        usageReportingId:
+          type: string
+    GcpMarketplaceConsumer:
+      type: object
+      properties:
+        project:
+          type: string
+    GcpPurchasePlan:
+      type: object
+      properties:
+        name:
+          type: string
+        priceInfo:
+          $ref: '#/components/schemas/GcpCommerceProducerPriceInfo'
+        purchaseMode:
+          type: string
+        title:
+          type: string
+    GcpCommerceProducerPriceInfo:
+      type: object
+      properties:
+        description:
+          type: string
+        priceModel:
+          type: string
+        subscriptionPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPriceSubscription'
+        usageFees:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPriceUsage'
+    GcpCommerceProducerPriceSubscription:
+      type: object
+      properties:
+        period:
+          type: string
+        price:
+          $ref: '#/components/schemas/GcpCommerceProducerPrice'
+        taxCategoryOverride:
+          type: string
+    GcpCommerceProducerPrice:
+      type: object
+      properties:
+        currencyCode:
+          type: string
+        nanos:
+          type: integer
+        units:
+          type: integer
+    GcpCommerceProducerPriceUsage:
+      type: object
+      properties:
+        displayQuantity:
+          type: integer
+        metricId:
+          type: string
+        priceTiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPriceTier'
+        taxCategoryOverride:
+          type: string
+    GcpCommerceProducerPriceTier:
+      type: object
+      properties:
+        endUsageAmount:
+          type: number
+          format: double
+        price:
+          $ref: '#/components/schemas/GcpCommerceProducerPrice'
+        startUsageAmount:
+          type: number
+          format: double
+    PaymentInstallment:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        chargeOn:
+          type: string
+    IdentityBuyer:
+      type: object
+      properties:
+        creationTime:
+          type: string
+        description:
+          type: string
+        externalID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/BuyerInfo'
+        lastUpdateTime:
+          type: string
+        name:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+    BuyerInfo:
+      type: object
+      properties:
+        awsBuyer:
+          $ref: '#/components/schemas/AwsAccountIdentifier'
+        azureBuyer:
+          $ref: '#/components/schemas/AzureADIdentifier'
+        collectableAmount:
+          type: number
+          format: double
+        disbursedAmount:
+          type: number
+          format: double
+        gcpBuyer:
+          $ref: '#/components/schemas/GcpMarketplaceUserAccount'
+        invoicedAmount:
+          type: number
+          format: double
+    AwsAccountIdentifier:
+      type: object
+      properties:
+        awsAccountID:
+          type: string
+        awsCustomerID:
+          type: string
+        companyInfo:
+          $ref: '#/components/schemas/CompanyInfo'
+        dataFeedAccountID:
+          type: string
+    GcpMarketplaceUserAccount:
+      type: object
+      properties:
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpMarketplaceUserAccountApproval'
+        createTime:
+          type: string
+        id:
+          type: string
+        inputProperties:
+          type: array
+          items:
+            type: integer
+        name:
+          type: string
+        provider:
+          type: string
+        state:
+          type: string
+        updateTime:
+          type: string
+        userInfo:
+          $ref: '#/components/schemas/GcpUserInfo'
+    GcpMarketplaceUserAccountApproval:
+      type: object
+      properties:
+        name:
+          type: string
+        reason:
+          type: string
+        state:
+          type: string
+        updateTime:
+          type: string
+    GcpUserInfo:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+        user_identity:
+          type: string
+    WorkloadEntitlementTerm:
+      type: object
+      properties:
+        buyerID:
+          type: string
+        commitAmount:
+          type: number
+          format: double
+        creditAmount:
+          type: number
+          format: double
+        endTime:
+          type: string
+        entitlementID:
+          type: string
+        entitlementInfo:
+          $ref: '#/components/schemas/EntitlementInfo'
+        externalEntitlementID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/EntitlementTermInfo'
+        offerID:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        service:
+          type: string
+        startTime:
+          type: string
+        usedCommitAmount:
+          type: number
+          format: double
+        usedCreditAmount:
+          type: number
+          format: double
+    EntitlementTermInfo:
+      type: object
+      properties:
+        type:
+          type: string
+    ListUsageRecordGroupsResponse:
+      type: object
+      properties:
+        nextOffset:
+          type: integer
+        usageRecordGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeteringUsageRecordGroup'
+    MeteringUsageRecordGroup:
+      type: object
+      properties:
+        creationTime:
+          type: string
+        entitlementID:
+          type: string
+        id:
+          type: string
+        lastUpdateTime:
+          type: string
+        organizationID:
+          type: string
+        serialID:
+          type: integer
+        status:
+          type: string
+        usageRecordReportID:
+          type: string
+    MeteringUsageRecordReport:
+      type: object
+      properties:
+        creationTime:
+          type: string
+        entitlementID:
+          type: string
+        entitlementTermID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/MeteringUsageRecordReportInfo'
+        organizationID:
+          type: string
+        productID:
+          type: string
+    MeteringUsageRecordReportInfo:
+      type: object
+      properties:
+        awsMeteringResponse:
+          $ref: '#/components/schemas/BatchMeterUsageOutput'
+        azureMeteringResponse:
+          $ref: '#/components/schemas/BatchUsageEventOkResponse'
+        commitAmount:
+          type: number
+          format: double
+        creditAmount:
+          type: number
+          format: double
+        endTime:
+          type: string
+        gcpMeteringResponse:
+          $ref: '#/components/schemas/ReportResponse'
+        startTime:
+          type: string
+        usageRecordGroupIds:
+          type: array
+          items:
+            type: string
+        usedCommitAmount:
+          type: number
+          format: double
+        usedCommitAmountIncrement:
+          type: number
+          format: double
+        usedCreditAmount:
+          type: number
+          format: double
+        usedCreditAmountIncrement:
+          type: number
+          format: double
+    BatchMeterUsageOutput:
+      type: object
+      properties:
+        resultMetadata:
+          $ref: '#/components/schemas/Metadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageRecordResult'
+        unprocessedRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageRecord'
+    UsageRecordResult:
+      type: object
+      properties:
+        meteringRecordId:
+          type: string
+        status:
+          type: string
+        usageRecord:
+          $ref: '#/components/schemas/UsageRecord'
+    UsageRecord:
+      type: object
+      properties:
+        customerIdentifier:
+          type: string
+        dimension:
+          type: string
+        quantity:
+          type: integer
+        timestamp:
+          type: string
+        usageAllocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageAllocation'
+    UsageAllocation:
+      type: object
+      properties:
+        allocatedUsageQuantity:
+          type: integer
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Tag:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    BatchUsageEventOkResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageBatchEventOkMessage'
+    UsageBatchEventOkMessage:
+      type: object
+      properties:
+        dimension:
+          type: string
+        effectiveStartTime:
+          type: string
+        error:
+          $ref: '#/components/schemas/UsageEventConflictResponse'
+        messageTime:
+          type: string
+        planId:
+          type: string
+        quantity:
+          type: number
+          format: double
+        resourceId:
+          type: string
+        resourceUri:
+          type: string
+        status:
+          type: string
+        usageEventId:
+          type: string
+    UsageEventConflictResponse:
+      type: object
+      properties:
+        additionalInfo:
+          $ref: '#/components/schemas/UsageEventConflictResponseAdditionalInfo'
+        code:
+          type: string
+        message:
+          type: string
+    UsageEventConflictResponseAdditionalInfo:
+      type: object
+      properties:
+        acceptedMessage:
+          $ref: '#/components/schemas/UsageEventOkResponse'
+    UsageEventOkResponse:
+      type: object
+      properties:
+        dimension:
+          type: string
+        effectiveStartTime:
+          type: string
+        messageTime:
+          type: string
+        planId:
+          type: string
+        quantity:
+          type: number
+          format: double
+        resourceId:
+          type: string
+        resourceUri:
+          type: string
+        status:
+          type: string
+        usageEventId:
+          type: string
+    ReportResponse:
+      type: object
+      properties:
+        header:
+          $ref: '#/components/schemas/Header'
+        httpstatusCode:
+          type: integer
+        reportErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportError'
+        serviceConfigId:
+          type: string
+        serviceRolloutId:
+          type: string
+    Header:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ReportError:
+      type: object
+      properties:
+        operationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+        details:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        message:
+          type: string
+    IdentityIntegration:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationTime:
+          type: string
+        info:
+          $ref: '#/components/schemas/IntegrationInfo'
+        lastUpdateTime:
+          type: string
+        lastUpdatedBy:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+    IntegrationInfo:
+      type: object
+      properties:
+        awsIntegration:
+          $ref: '#/components/schemas/AwsIntegration'
+        azureIntegration:
+          $ref: '#/components/schemas/AzureIntegration'
+        gcpIntegration:
+          $ref: '#/components/schemas/GcpIntegration'
+    AwsIntegration:
+      type: object
+      description: >-
+        The data struct to store integration info for Suger service to access
+        the client's AWS services.
+      properties:
+        externalID:
+          type: string
+        iamRoleArn:
+          type: string
+        marketplaceStartDate:
+          type: string
+        mcasFullSyncDone:
+          type: boolean
+        mcasIamRoleArn:
+          type: string
+        mcasS3Bucket:
+          type: string
+        mcasSnsTopic:
+          type: string
+        mdfsFullSyncDone:
+          type: boolean
+        mdfsKmsKeyArn:
+          type: string
+        mdfsS3BucketArn:
+          type: string
+        policyArns:
+          type: array
+          items:
+            type: string
+    AzureIntegration:
+      type: object
+      properties:
+        cmaFullSyncDone:
+          type: boolean
+        credential:
+          $ref: '#/components/schemas/AzureCredential'
+    AzureCredential:
+      type: object
+      properties:
+        clientID:
+          type: string
+        clientSecret:
+          type: string
+        clientSecretKey:
+          type: string
+        resourceID:
+          type: string
+        tenantID:
+          type: string
+    GcpIntegration:
+      type: object
+      properties:
+        gcpProjectId:
+          type: string
+        gcpProjectNumber:
+          type: string
+        identityProviderId:
+          type: string
+        partnerId:
+          type: string
+        pubsubTopic:
+          type: string
+        reportBucket:
+          type: string
+        reportFullSyncDone:
+          type: boolean
+        reportStartDate:
+          type: string
+        serviceAccountEmail:
+          type: string
+        serviceNames:
+          type: array
+          items:
+            type: string
+        workloadIdentityPoolId:
+          type: string
+    WorkloadOffer:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationTime:
+          type: string
+        endTime:
+          type: string
+        expireTime:
+          type: string
+        externalID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/OfferInfo'
+        lastUpdateTime:
+          type: string
+        lastUpdatedBy:
+          type: string
+        name:
+          type: string
+        offerType:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+    OfferInfo:
+      type: object
+      properties:
+        azureProductVariant:
+          $ref: '#/components/schemas/AzureProductVariant'
+        baseAgreementId:
+          type: string
+        buyerAwsAccountIds:
+          type: array
+          items:
+            type: string
+        buyerAzureTenants:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureAudience'
+        commits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommitDimension'
+        currency:
+          type: string
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeteringDimension'
+        discount:
+          type: number
+          format: double
+        eulaType:
+          type: string
+        eulaUrl:
+          type: string
+        gcpMetrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPurchaseMetric'
+        gcpPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpPurchasePlan'
+        isAgreementBasedOffer:
+          type: boolean
+        paymentInstallments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentInstallment'
+        refundCancelationPolicy:
+          type: string
+        sellerNotes:
+          type: string
+        visibility:
+          type: string
+    AzureProductVariant:
+      type: object
+      properties:
+        azureGovernmentCertifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureGovernmentCertification'
+        cloudAvailabilities:
+          type: array
+          items:
+            type: string
+        conversionPaths:
+          type: string
+        extendedProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        externalID:
+          type: string
+        featureAvailabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductFeatureAvailability'
+        friendlyName:
+          type: string
+        id:
+          type: string
+        leadGenID:
+          type: string
+        referenceVariantID:
+          type: string
+        resourceType:
+          type: string
+        state:
+          type: string
+    AzureGovernmentCertification:
+      type: object
+      properties:
+        title:
+          type: string
+        uri:
+          type: string
+        validationResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureValidationResult'
+    AzureValidationResult:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        memberNames:
+          type: array
+          items:
+            type: string
+    TypeValue:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+    AzureProductFeatureAvailability:
+      type: object
+      properties:
+        customMeters:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductVariantCustomMeter'
+        id:
+          type: string
+        isHidden:
+          type: boolean
+        marketStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureMarketState'
+        markets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureMarket'
+        priceSchedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductVariantPriceSchedule'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        resourceType:
+          type: string
+        subscriptionAudiences:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureAudience'
+        tenantAudiences:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureAudience'
+        trial:
+          $ref: '#/components/schemas/AzureProductVariantTrial'
+        visibility:
+          type: string
+    AzureProductVariantCustomMeter:
+      type: object
+      properties:
+        displayName:
+          type: string
+        id:
+          type: string
+        includedBaseQuantities:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncludedBaseQuantity'
+        isEnabled:
+          type: boolean
+        priceInUsd:
+          type: number
+          format: double
+        uniqueID:
+          type: string
+        unitOfMeasure:
+          type: string
+    AzureMarketState:
+      type: object
+      properties:
+        marketCode:
+          type: string
+        state:
+          type: string
+    AzureMarket:
+      type: object
+      properties:
+        friendlyName:
+          type: string
+        marketCode:
+          type: string
+    AzureProductVariantPriceSchedule:
+      type: object
+      properties:
+        dateTimeRange:
+          $ref: '#/components/schemas/AzureLocalizedTimeRange'
+        friendlyName:
+          type: string
+        isBaseSchedule:
+          type: boolean
+        marketCodes:
+          type: array
+          items:
+            type: string
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzurePriceSchedule'
+    AzureLocalizedTimeRange:
+      type: object
+      properties:
+        endAt:
+          $ref: '#/components/schemas/AzureLocalizedDateTime'
+        startAt:
+          $ref: '#/components/schemas/AzureLocalizedDateTime'
+    AzureLocalizedDateTime:
+      type: object
+      properties:
+        dateTimeInUtc:
+          type: string
+        localizePerMarket:
+          type: boolean
+    AzurePriceSchedule:
+      type: object
+      properties:
+        priceCadence:
+          $ref: '#/components/schemas/AzurePriceCadence'
+        pricingModel:
+          type: string
+        pricingUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzurePricingUnit'
+        retailPrice:
+          $ref: '#/components/schemas/AzurePrice'
+    AzurePriceCadence:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: integer
+    AzurePricingUnit:
+      type: object
+      properties:
+        isUnlimitedUnit:
+          type: boolean
+        lowerUnit:
+          type: integer
+        name:
+          type: string
+        unitType:
+          type: string
+        upperUnit:
+          type: integer
+    AzurePrice:
+      type: object
+      properties:
+        currencyCode:
+          type: string
+        openPrice:
+          type: number
+          format: double
+        priceTierID:
+          type: string
+    AzureAudience:
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+    AzureProductVariantTrial:
+      type: object
+      properties:
+        dateTimeRange:
+          $ref: '#/components/schemas/AzureLocalizedTimeRange'
+        duration:
+          type: integer
+        durationType:
+          type: string
+        type:
+          type: string
+    GcpCommerceProducerPurchaseMetric:
+      type: object
+      properties:
+        description:
+          type: string
+        displayName:
+          type: string
+        displayUnit:
+          type: string
+        displayUnitDescription:
+          type: string
+        id:
+          type: string
+        metricKind:
+          type: string
+        name:
+          type: string
+        reportingUnit:
+          type: string
+        unit:
+          type: string
+        valueType:
+          type: string
+    WorkloadProduct:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationTime:
+          type: string
+        externalID:
+          type: string
+        fulfillmentUrl:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/ProductInfo'
+        lastUpdateTime:
+          type: string
+        lastUpdatedBy:
+          type: string
+        name:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productType:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+    ProductInfo:
+      type: object
+      properties:
+        awsSaasProduct:
+          $ref: '#/components/schemas/AwsSaasProduct'
+        awsSnsSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwsSnsSubscription'
+        azureProduct:
+          $ref: '#/components/schemas/AzureProduct'
+        commits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommitDimension'
+        currency:
+          type: string
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeteringDimension'
+        eulaUrl:
+          type: string
+        gcpProduct:
+          $ref: '#/components/schemas/GcpProduct'
+        refundCancelationPolicy:
+          type: string
+        sellerNotes:
+          type: string
+    AwsSaasProduct:
+      type: object
+      properties:
+        Description:
+          $ref: '#/components/schemas/AwsSaasProductDescription'
+        Dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwsSaasProductDimension'
+        PromotionalResources:
+          $ref: '#/components/schemas/AwsSaasProductPromotionalResources'
+        SupportInformation:
+          $ref: '#/components/schemas/AwsSaasProductSupportInformation'
+        Versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwsSaasProductVersion'
+        dataFeedProductId:
+          type: string
+        productId:
+          type: string
+    AwsSaasProductDescription:
+      type: object
+      properties:
+        AssociatedProducts:
+          type: string
+        Categories:
+          type: array
+          items:
+            type: string
+        EuW8Submitted:
+          type: boolean
+        Highlights:
+          type: array
+          items:
+            type: string
+        LongDescription:
+          type: string
+        Manufacturer:
+          type: string
+        ProductCode:
+          type: string
+        ProductTitle:
+          type: string
+        Registered:
+          type: boolean
+        SearchKeywords:
+          type: array
+          items:
+            type: string
+        ShortDescription:
+          type: string
+        Sku:
+          type: string
+        UsW9Submitted:
+          type: boolean
+        Visibility:
+          type: string
+    AwsSaasProductDimension:
+      type: object
+      properties:
+        Description:
+          type: string
+        Key:
+          type: string
+        Name:
+          type: string
+        Types:
+          type: array
+          items:
+            type: string
+        Unit:
+          type: string
+    AwsSaasProductPromotionalResources:
+      type: object
+      properties:
+        AdditionalResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwsSaasProductAdditionalResource'
+        LogoUrl:
+          type: string
+    AwsSaasProductAdditionalResource:
+      type: object
+      properties:
+        Text:
+          type: string
+        Type:
+          type: string
+        Url:
+          type: string
+    AwsSaasProductSupportInformation:
+      type: object
+      properties:
+        Description:
+          type: string
+    AwsSaasProductVersion:
+      type: object
+      properties:
+        DeliveryOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwsSaasProductDeliveryOption'
+        Id:
+          type: string
+    AwsSaasProductDeliveryOption:
+      type: object
+      properties:
+        FulfillmentUrl:
+          type: string
+        Id:
+          type: string
+        Type:
+          type: string
+    AwsSnsSubscription:
+      type: object
+      properties:
+        Endpoint:
+          type: string
+        Protocol:
+          type: string
+        Status:
+          type: string
+        SubscriptionArn:
+          type: string
+        TopicArn:
+          type: string
+    AzureProduct:
+      type: object
+      properties:
+        availabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductAvailability'
+        branches:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductBranch'
+        externalIDs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        id:
+          type: string
+        isModularPublishing:
+          type: boolean
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductListing'
+        name:
+          type: string
+        packageConfigurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductPackageConfiguration'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductProperty'
+        resourceType:
+          type: string
+        setup:
+          $ref: '#/components/schemas/AzureProductSetup'
+        submissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductSubmission'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductVariant'
+    AzureProductAvailability:
+      type: object
+      properties:
+        emailAudiences:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureAudience'
+        enterpriseLicensing:
+          type: string
+        id:
+          type: string
+        resourceType:
+          type: string
+        subscriptionAudiences:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureAudience'
+        visibility:
+          type: string
+    AzureProductBranch:
+      type: object
+      properties:
+        currentDraftInstanceID:
+          type: string
+        friendlyName:
+          type: string
+        id:
+          type: string
+        module:
+          type: string
+        resourceType:
+          type: string
+        type:
+          type: string
+        variantID:
+          type: string
+    AzureProductListing:
+      type: object
+      properties:
+        accessInformation:
+          type: string
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureProductListingAsset'
+        compatibleProducts:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        gettingStartedInstructions:
+          type: string
+        id:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        languageCode:
+          type: string
+        listingContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureListingContact'
+        listingUris:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureListingUri'
+        productDisplayName:
+          type: string
+        publisherName:
+          type: string
+        resourceType:
+          type: string
+        shortDescription:
+          type: string
+        summary:
+          type: string
+        title:
+          type: string
+    AzureProductListingAsset:
+      type: object
+      properties:
+        description:
+          type: string
+        fileName:
+          type: string
+        fileSasUri:
+          type: string
+        friendlyName:
+          type: string
+        id:
+          type: string
+        order:
+          type: integer
+        publisherDefinedSasUri:
+          type: string
+        resourceType:
+          type: string
+        state:
+          type: string
+        type:
+          type: string
+    AzureListingContact:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        type:
+          type: string
+        uri:
+          type: string
+    AzureListingUri:
+      type: object
+      properties:
+        displayText:
+          type: string
+        subtype:
+          type: string
+        type:
+          type: string
+        uri:
+          type: string
+    AzureProductPackageConfiguration:
+      type: object
+      properties:
+        azureActiveDirectoryApplicationID:
+          type: string
+        azureActiveDirectoryTenantID:
+          type: string
+        connectionWebhook:
+          type: string
+        id:
+          type: string
+        landingPageUri:
+          type: string
+        resourceType:
+          type: string
+    AzureProductProperty:
+      type: object
+      properties:
+        additionalCategories:
+          type: array
+          items:
+            type: string
+        appVersion:
+          type: string
+        applicableProducts:
+          type: array
+          items:
+            type: string
+        categories:
+          type: array
+          items:
+            type: string
+        customAmendments:
+          type: array
+          items:
+            type: string
+        extendedProperties:
+          type: array
+          items:
+            type: string
+        globalAmendmentTerms:
+          type: string
+        hideKeys:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+        industries:
+          type: array
+          items:
+            type: string
+        marketingOnlyChange:
+          type: boolean
+        productTags:
+          type: array
+          items:
+            type: string
+        resourceType:
+          type: string
+        submissionVersion:
+          type: string
+        termsOfUse:
+          type: string
+        useEnterpriseContract:
+          type: boolean
+    AzureProductSetup:
+      type: object
+      properties:
+        callToAction:
+          type: string
+        channelStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        enableTestDrive:
+          type: boolean
+        resourceType:
+          type: string
+        sellingOption:
+          type: string
+        testDriveType:
+          type: string
+        trialUri:
+          type: string
+    AzureProductSubmission:
+      type: object
+      properties:
+        areResourcesReady:
+          type: boolean
+        friendlyName:
+          type: string
+        id:
+          type: string
+        pendingUpdateInfo:
+          $ref: '#/components/schemas/AzurePendingUpdateInfo'
+        publishedTimeInUtc:
+          type: string
+        releaseNumber:
+          type: integer
+        resourceType:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        state:
+          type: string
+        subState:
+          type: string
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        variantResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/AzureVariantResource'
+    AzurePendingUpdateInfo:
+      type: object
+      properties:
+        status:
+          type: string
+        updateType:
+          type: string
+    AzureVariantResource:
+      type: object
+      properties:
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeValue'
+        variantID:
+          type: string
+    GcpProduct:
+      type: object
+      properties:
+        createTime:
+          type: string
+        id:
+          type: string
+        listingSpec:
+          $ref: '#/components/schemas/GcpCommerceProducerListingSpec'
+        marketplace:
+          type: string
+        name:
+          type: string
+        service:
+          type: string
+        serviceConfig:
+          $ref: '#/components/schemas/GcpCommerceProducerServiceConfig'
+    GcpCommerceProducerListingSpec:
+      type: object
+      properties:
+        externalAccountSpec:
+          $ref: '#/components/schemas/GcpCommerceProducerExternalAccountSpec'
+        listingType:
+          type: string
+        marketingSpec:
+          $ref: '#/components/schemas/GcpCommerceProducerMarketingSpec'
+        purchaseSpec:
+          $ref: '#/components/schemas/GcpCommerceProducerPurchaseSpec'
+    GcpCommerceProducerExternalAccountSpec:
+      type: object
+      properties:
+        loginUri:
+          type: string
+        signupUri:
+          type: string
+        singleSignOnUri:
+          type: string
+    GcpCommerceProducerMarketingSpec:
+      type: object
+      properties:
+        description:
+          type: string
+        displayNames:
+          type: array
+          items:
+            type: string
+        eulaUrl:
+          type: string
+        externalMarketingUrl:
+          type: string
+        icon:
+          type: string
+        searchCategories:
+          type: array
+          items:
+            type: string
+        searchDescription:
+          type: string
+        searchKeywords:
+          type: array
+          items:
+            type: string
+        shortTitle:
+          type: string
+        supportSpec:
+          $ref: '#/components/schemas/GcpCommerceProducerSupportSpec'
+        title:
+          type: string
+    GcpCommerceProducerSupportSpec:
+      type: object
+      properties:
+        description:
+          type: string
+        email:
+          type: string
+        uri:
+          type: string
+    GcpCommerceProducerPurchaseSpec:
+      type: object
+      properties:
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPurchaseMetric'
+        purchaseOptionSpecs:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpPurchasePlan'
+    GcpCommerceProducerServiceConfig:
+      type: object
+      properties:
+        billing:
+          $ref: '#/components/schemas/GcpCommerceProducerServiceBilling'
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/GcpCommerceProducerPurchaseMetric'
+        name:
+          type: string
+        producerProjectId:
+          type: string
+        title:
+          type: string
+    GcpCommerceProducerServiceBilling:
+      type: object
+      properties:
+        metrics:
+          type: array
+          items:
+            type: string
+    RevenueRecord:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        date:
+          type: string
+    Metadata: {}
+    AddEntitlementCreditParams:
+      type: object
+      properties:
+        creditAmountIncrement:
+          type: number
+          format: double
+        entitlementID:
+          type: string
+        organizationID:
+          type: string
+      required:
+        - creditAmountIncrement
+        - entitlementID
+        - organizationID
+    AddEntitlementCreditResponse:
+      type: object
+      properties:
+        creditAmountIncrement:
+          type: number
+          format: double
+        entitlementID:
+          type: string
+        entitlementTermID:
+          type: string
+        newCreditAmount:
+          type: number
+          format: double
+        organizationID:
+          type: string
+    UpdateEntitlementNameParams:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        organizationID:
+          type: string
+    CreateIntegrationParams:
+      type: object
+      properties:
+        info:
+          $ref: '#/components/schemas/IntegrationInfo'
+        organizationID:
+          type: string
+        partner:
+          type: string
+        service:
+          type: string
+      required:
+        - info
+        - organizationID
+        - partner
+        - service
+    UpdateIntegrationParams:
+      type: object
+      properties:
+        info:
+          $ref: '#/components/schemas/IntegrationInfo'
+        organizationID:
+          type: string
+        partner:
+          type: string
+        service:
+          type: string
+      required:
+        - info
+        - organizationID
+        - partner
+        - service
+    CreateUsageRecordGroupParams:
+      type: object
+      properties:
+        entitlementID:
+          type: string
+        id:
+          type: string
+        organizationID:
+          type: string
+      required:
+        - entitlementID
+        - organizationID
+    ListUsageRecordReportsResponse:
+      type: object
+      properties:
+        usageRecordReports:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeteringUsageRecordReport'
+    CreateOfferParams:
+      type: object
+      properties:
+        creationTime:
+          type: string
+        endTime:
+          type: string
+        expireTime:
+          type: string
+        externalID:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/OfferInfo'
+        name:
+          type: string
+        offerType:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+      required:
+        - info
+        - name
+        - organizationID
+        - partner
+        - productID
+        - service
+    Operation:
+      type: object
+      properties:
+        endTime:
+          type: string
+        id:
+          type: string
+        message:
+          type: string
+        name:
+          type: string
+        startTime:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+    CreateProductParams:
+      type: object
+      properties:
+        externalID:
+          type: string
+        fulfillmentUrl:
+          type: string
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/ProductInfo'
+        name:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productType:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+    UpdateProductParams:
+      type: object
+      properties:
+        fulfillmentUrl:
+          type: string
+        id:
+          type: string
+        organizationID:
+          type: string
+      required:
+        - fulfillmentUrl
+        - id
+        - organizationID
+    GetRevenueReportParams:
+      type: object
+      properties:
+        buyerID:
+          type: string
+        entitlementID:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        reportType:
+          type: string
+        service:
+          type: string
+      required:
+        - organizationID
+        - partner
+        - reportType
+        - service
+    RevenueReport:
+      type: object
+      properties:
+        buyerID:
+          type: string
+        entitlementID:
+          type: string
+        organizationID:
+          type: string
+        partner:
+          type: string
+        productID:
+          type: string
+        reportDate:
+          type: string
+        reportType:
+          type: string
+        revenueRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/RevenueRecord'
+        service:
+          type: string
+    GetUsageReportParams:
+      type: object
+      properties:
+        entitlementID:
+          type: string
+        organizationID:
+          type: string
+      required:
+        - entitlementID
+        - organizationID
+    UsageReport:
+      type: object
+      properties:
+        entitlementID:
+          type: string
+        organizationID:
+          type: string
+        reportDate:
+          type: string
+        usageRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementUsageRecord'
+    EntitlementUsageRecord:
+      type: object
+      properties:
+        amounts:
+          type: array
+          items:
+            type: number
+            format: double
+        date:
+          type: string
+        keys:
+          type: array
+          items:
+            type: string
+        quantities:
+          type: array
+          items:
+            type: number
+            format: double
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+servers:
+  - url: http://www.suger.io
+    description: Production
